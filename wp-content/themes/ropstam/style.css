@@ -12,3 +12,48 @@ Requires PHP: 7.0
 Text Domain: ropstamassessment
 */
 
+.projects-archive {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+.project {
+    border: 1px solid;
+    padding: 10px;
+}
+.project a {
+    color: #000;
+    text-decoration: none;
+}
+
+.ajax-projects-contianer {
+    border-top: 1px solid;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+.get-projects {
+    /* margin-top: 20px; */
+    background-color: aqua;
+    border: 1px solid;
+    padding: 20px;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+.hs-coffee-container {
+    border-top: 1px solid;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+.coffe-image {
+    width: 300px;
+    border: 1px solid black;
+}
+
+.kanye-quotes-container {
+    border-top: 1px solid;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
