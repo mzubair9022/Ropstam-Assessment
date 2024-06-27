@@ -2,6 +2,8 @@
 
 function enqueue_scripts() {
     wp_enqueue_style('main-stylesheet', get_stylesheet_uri());
+    wp_enqueue_script('js-scripts', get_template_directory_uri() . '/js/script.js', array('jquery'), time(), true);
+    wp_localize_script('js-scripts', 'ajax_object', array('ajax_url' => admin_url('admin-ajax.php')));
 }
 add_action('wp_enqueue_scripts', 'enqueue_scripts');
 
@@ -89,3 +91,57 @@ function register_project_type_taxonomy() {
     register_taxonomy( 'project_type', array( 'projects' ), $args );
 }
 add_action( 'init', 'register_project_type_taxonomy');
+
+
+
+// Task 5:- Ajax endpoints
+
+// Function to fetch the last three published projects
+function get_last_three_projects() {
+    $projects_per_page = is_user_logged_in() ? 6 : 3;
+    $args = array(
+        'post_type'      => 'projects',
+        'posts_per_page' => $projects_per_page,
+        'order'          => 'DESC',
+        'orderby'        => 'date',
+        'tax_query'      => array(
+            array(
+                'taxonomy' => 'project_type',
+                'field'    => 'slug',
+                'terms'    => 'architecture',
+            ),
+        ),
+    );
+
+    $query = new WP_Query($args);
+
+    $projects = array();
+    while ($query->have_posts()) {
+        $query->the_post();
+        $projects_id = get_the_ID();
+        $projects[] = array(
+            'id'    => $projects_id,
+            'title' => get_the_title(),
+            'link'  => get_permalink($projects_id),
+        );
+    }
+
+    wp_reset_postdata();
+
+    return $projects;
+}
+
+// AJAX handler for fetching the last three projects
+function ajax_get_last_three_projects() {
+    $projects = get_last_three_projects();
+
+    if ($projects) {
+        wp_send_json_success(array('data' => $projects));
+    } else {
+        wp_send_json_error(array('message' => 'No posts found'));
+    }
+}
+
+// Hook for adding the AJAX action
+add_action('wp_ajax_get_last_three_projects', 'ajax_get_last_three_projects');
+add_action('wp_ajax_nopriv_get_last_three_projects', 'ajax_get_last_three_projects');

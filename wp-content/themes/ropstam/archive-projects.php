@@ -39,4 +39,11 @@ if ($projects_query->have_posts()) : ?>
 
 <?php wp_reset_postdata(); ?>
 
+
+<div class="ajax-projects-contianer">
+    <h2>This is Ajax functionality please click on button to console the projects</h2>
+    <button class="get-projects">Get the projects through AJAX</button>
+</div>
+
+
 <?php get_footer(); ?>
