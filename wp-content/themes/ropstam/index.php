@@ -22,4 +22,10 @@
     }
     ?>
 
+
+    <div class="hs-coffee-container">
+        <h3>Task 6:- This is Random Coffee shortcode which is defined in main plugin file.</h3>
+        <?php echo do_shortcode("[coffee_image]"); ?>
+    </div>
+
 <?php get_footer(); ?>
